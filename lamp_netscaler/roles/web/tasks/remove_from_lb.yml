@@ -1,0 +1,15 @@
+---
+# This Playbook does utility stuff's like adding a webserver into the pool, etc..
+
+- name: Remove the code from server
+  command: rm -rf /var/www/html/*
+
+- name: Remove an entry of this server from the  LoadBalancer pool
+  local_action: netscaler_service ns_host=${ns_host} user=${ns_user} password=${ns_password} type=HTTP  ip_address=${hostvars.{$inventory_hostname}.ansible_$iface.ipv4.address} state=absent  port=80 name=service-HTTP-${ansible_hostname}  
+
+- name: Remove the httpd package
+  yum: name=httpd state=absent
+
+
+
+ 

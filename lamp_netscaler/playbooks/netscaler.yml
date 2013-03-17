@@ -1,0 +1,7 @@
+---
+#The main Netscaler configuation playbook
+
+- hosts: localhost
+  user: root
+  tasks:
+   - include: ../roles/netscaler/tasks/main.yml

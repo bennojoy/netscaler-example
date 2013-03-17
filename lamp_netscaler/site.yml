@@ -1,0 +1,6 @@
+---
+#This Playbook deploys the whole application stack in this site.  
+
+- include: playbooks/db.yml
+- include: playbooks/netscaler.yml
+- include: playbooks/web.yml

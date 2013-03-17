@@ -1,0 +1,29 @@
+---
+# varialbles here would be applicable to all groups
+
+#Netscaler host ip
+ns_host: 172.16.101.2 
+
+#Netscaler host user
+ns_user: nsroot 
+
+#Netscaler host password
+ns_password: nsroot
+
+#Netscaler source ip 
+ns_snip_ip: 192.168.10.1
+
+#Netscaler source subnet_mask
+ns_snip_netmask: 255.255.255.0
+
+#Netscaler virtual ip
+ns_vip_ip: 172.16.101.100
+
+#Netscaler VIP name
+ns_vip_name: MYAPP
+
+
+
+httpd_port: 80
+ntpserver: 192.168.1.2
+repository: http://github.com/bennojoy/mywebapp.git

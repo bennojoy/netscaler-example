@@ -1,0 +1,16 @@
+<html>
+ <head>
+  <title>Ansible Application</title>
+ </head>
+ <body>
+ </br>
+  <a href=http://{{ ns_vip_ip }}/index.html>Homepage</a>
+ </br>
+<?php 
+ Print "Hello, World! I am configured in Ansible and i am : ";
+ echo exec('hostname');
+ Print  "</BR>";
+?>
+</body>
+</html>
+

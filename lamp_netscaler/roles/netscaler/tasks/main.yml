@@ -1,0 +1,13 @@
+---
+# This Playbook configures the netscaler for enabling lb feature and configure SNIP(subnet ip for source ip) and the VIP to connect the webservers
+
+- name: Enable the loadbalancing feature
+  netscaler_feature: ns_host=${ns_host} user=${ns_user} password=${ns_password} feature_name=LB state=present
+
+- name: Add an IP/subnet which would be used as the source ip when connecting to webservers
+  netscaler_ip: ns_host=${ns_host} user=${ns_user} password=${ns_password} ip_address=${ns_snip_ip} netmask=${ns_snip_netmask} state=present
+
+- name: Add the VIP to which connections would be accepted and set Loadbalancing policy etc.. -> In NS terminology called as vserver
+  netscaler_lbvserver: ns_host=${ns_host} user=${ns_user} password=${ns_password} ip_address=${ns_vip_ip} state=present type=HTTP lb_method=ROUNDROBIN name=MYAPP port=80
+
+

@@ -1,0 +1,33 @@
+---
+# This playbook installs http and the php modules.
+
+- name: Install http and php etc
+  action: yum  name=$item state=installed
+  with_items:
+   - httpd
+   - php
+   - php-mysql
+   - libsemanage-python
+   - libselinux-python
+  
+
+- name: insert iptables rule for httpd
+  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="$httpd_port" insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport $httpd_port -j  ACCEPT"
+  register: last_run
+
+- name: Apply iptable rule
+  service: name=iptables state=restarted
+  only_if: ${last_run.changed}
+
+- name: http service state
+  service: name=httpd state=started enabled=yes
+
+- name: Configure SELinux to allow httpd to connect to remote database
+  seboolean: name=httpd_can_network_connect_db state=true persistent=yes 
+
+- name: Add an entry of this server on the LoadBalancer into the myapp pool
+  local_action: netscaler_service ns_host=${ns_host} user=${ns_user} password=${ns_password} type=HTTP  ip_address=${hostvars.{$inventory_hostname}.ansible_$iface.ipv4.address} state=present  port=80 name=service-HTTP-${ansible_hostname}
+  
+- name: Bind the service to the vserver
+  local_action: netscaler_bind ns_host=${ns_host} user=${ns_user} password=${ns_password} service_name=service-HTTP-${ansible_hostname} vserver_name=${ns_vip_name} state=present
+
